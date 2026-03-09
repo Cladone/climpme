@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 1000 1000">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #059d4b;
+      }
+
+      .cls-1, .cls-2, .cls-3, .cls-4 {
+        stroke-width: 0px;
+      }
+
+      .cls-2 {
+        fill: #0fa755;
+      }
+
+      .cls-3 {
+        fill: #0aa250;
+      }
+
+      .cls-4 {
+        fill: #009846;
+      }
+    </style>
+  </defs>
+  <g id="Layer_12" data-name="Layer 12">
+    <rect class="cls-1" x="0" width="1000" height="1000"/>
+  </g>
+  <g id="Layer_11" data-name="Layer 11">
+    <polygon class="cls-4" points="1000 1000 0 1000 0 0 758.1 0 1000 253.8 1000 1000"/>
+  </g>
+  <g id="Layer_10" data-name="Layer 10">
+    <polygon class="cls-2" points="1000 1000 0 1000 0 0 531.5 0 1000 448.2 1000 1000"/>
+  </g>
+  <g id="Layer_9" data-name="Layer 9">
+    <polygon class="cls-3" points="1000 1000 0 1000 0 0 284.2 0 1000 604.4 1000 1000"/>
+  </g>
+  <g id="Layer_8" data-name="Layer 8">
+    <polygon class="cls-1" points="1000 1000 0 1000 0 0 8.7 0 1000 739.7 1000 1000"/>
+  </g>
+  <g id="Layer_7" data-name="Layer 7">
+    <polygon class="cls-4" points="1000 1000 0 1000 0 199 1000 853.5 1000 1000"/>
+  </g>
+  <g id="Layer_6" data-name="Layer 6">
+    <polygon class="cls-2" points="1000 1000 0 1000 0 386.3 1000 953.1 1000 1000"/>
+  </g>
+  <polygon class="cls-3" points="905.7 1000 0 1000 0 560 905.7 1000"/>
+  <g id="Layer_3" data-name="Layer 3">
+    <path class="cls-1" d="M721.8,1000H0v-259.3c218,76.7,545.3,195.2,721.8,259.3Z"/>
+  </g>
+  <g id="Layer_4" data-name="Layer 4">
+    <polygon class="cls-4" points="423.5 1000 0 1000 0 908.3 423.5 1000"/>
+  </g>
+</svg>

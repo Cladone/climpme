@@ -1,0 +1,75 @@
+name: Deploy climp.me
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          extensions: mbstring, bcmath, ctype, fileinfo, json, openssl, pdo, tokenizer, xml
+          tools: composer
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install Composer dependencies
+        run: composer install --no-dev --prefer-dist --optimize-autoloader --no-interaction
+
+      - name: Install Node dependencies and build
+        run: |
+          if [ -f package.json ]; then
+            npm ci
+            npm run build
+          fi
+
+      - name: Create deployment archive
+        run: |
+          tar \
+            --exclude=.git \
+            --exclude=node_modules \
+            --exclude=tests \
+            --exclude=.github \
+            -czf climp-release.tar.gz .
+
+      - name: Configure SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.DEPLOY_SSH_KEY }}" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+          if [ -n "${{ secrets.KNOWN_HOSTS }}" ]; then
+            echo "${{ secrets.KNOWN_HOSTS }}" > ~/.ssh/known_hosts
+          else
+            ssh-keyscan -H ${{ secrets.DEPLOY_HOST }} >> ~/.ssh/known_hosts
+          fi
+
+      - name: Upload release archive
+        run: |
+          scp -P ${{ secrets.DEPLOY_PORT }} climp-release.tar.gz \
+            ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }}:/tmp/climp-release.tar.gz
+
+      - name: Upload environment file
+        run: |
+          ssh -p ${{ secrets.DEPLOY_PORT }} ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }} \
+            "mkdir -p ${{ secrets.DEPLOY_PATH }}/shared"
+          ssh -p ${{ secrets.DEPLOY_PORT }} ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }} \
+            "cat > ${{ secrets.DEPLOY_PATH }}/shared/.env" <<'EOF'
+          ${{ secrets.APP_ENV_FILE }}
+          EOF
+
+      - name: Run deployment
+        run: |
+          ssh -p ${{ secrets.DEPLOY_PORT }} ${{ secrets.DEPLOY_USER }}@${{ secrets.DEPLOY_HOST }} \
+            "bash ${{ secrets.DEPLOY_PATH }}/deploy.sh"
